@@ -7,6 +7,7 @@ import Login from './Pages/Login';
 import Error from './Pages/Error';
 import Products from './Pages/Products';
 import Update from './Pages/Update';
+import ForgetPassword from './Pages/ForgetPassword';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/Addproducts" element={<AddProducts />} />
         <Route path="/update/:id" element={<Update />} />
+        <Route path="/UpdatePassword" element={<ForgetPassword />} />
         <Route path="/*" element={<Error />} />
       </Routes>
     </Router>
