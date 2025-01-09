@@ -9,18 +9,15 @@ import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import 'react-toastify/dist/ReactToastify.css';
 
-// Signup Component
 const Signup = () => {
   const [apiData, setApiData] = useState([]);
   const navigate = useNavigate();
 
-  // Fetch users data from API
   useEffect(() => {
     axios.get("https://670f45153e715186165720fb.mockapi.io/admin")
       .then((response) => setApiData(response.data));
   }, []);
 
-  // Validation schema using Yup
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
     num: Yup.string().required("Number is required"),
@@ -31,11 +28,9 @@ const Signup = () => {
       .required("Confirm password is required"),
   });
 
-  // Handle form submission
   const handleSubmit = (values, { resetForm }) => {
     const { name, num, email, password } = values;
 
-    // Checking if the email already exists in API data
     const existingEmail = apiData.find(user => user.email === email);
 
     if (existingEmail) {
@@ -55,95 +50,90 @@ const Signup = () => {
   };
 
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center vh-100 bg-light text-dark card">
-      <SiGnuprivacyguard className="fs-3" />
-      <h1 className="fs-2 fw-bold">Sign Up</h1>
+    <div className="d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
+      <div className="card shadow-lg p-4" style={{ width: "30rem", borderRadius: "10px" }}>
+        <h1 className="fs-2 fw-bold text-primary mb-4">Sign Up</h1>
 
-      {/* Formik Form */}
-      <Formik
-        initialValues={{
-          name: "",
-          num: "",
-          email: "",
-          password: "",
-          repassword: "",
-        }}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ touched, errors }) => (
-          <Form className="w-25">
-            {/* Name Field */}
-            <div className="mb-3">
-              <label htmlFor="name" className="form-label">Name</label>
-              <Field
-                type="text"
-                className={`form-control ${touched.name && errors.name ? "is-invalid" : ""}`}
-                id="name"
-                name="name"
-                placeholder="Enter Name"
-              />
-              {touched.name && errors.name && <div className="invalid-feedback">{errors.name}</div>}
-            </div>
+        <Formik
+          initialValues={{
+            name: "",
+            num: "",
+            email: "",
+            password: "",
+            repassword: "",
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ touched, errors }) => (
+            <Form>
+              <div className="mb-3">
+                <label htmlFor="name" className="form-label">Name</label>
+                <Field
+                  type="text"
+                  className={`form-control ${touched.name && errors.name ? "is-invalid" : ""}`}
+                  id="name"
+                  name="name"
+                  placeholder="Enter Name"
+                />
+                {touched.name && errors.name && <div className="invalid-feedback">{errors.name}</div>}
+              </div>
 
-            {/* Number Field */}
-            <div className="mb-3">
-              <label htmlFor="num" className="form-label">Number</label>
-              <Field
-                type="number"
-                className={`form-control ${touched.num && errors.num ? "is-invalid" : ""}`}
-                id="num"
-                name="num"
-                placeholder="Enter Number"
-              />
-              {touched.num && errors.num && <div className="invalid-feedback">{errors.num}</div>}
-            </div>
+              <div className="mb-3">
+                <label htmlFor="num" className="form-label">Number</label>
+                <Field
+                  type="number"
+                  className={`form-control ${touched.num && errors.num ? "is-invalid" : ""}`}
+                  id="num"
+                  name="num"
+                  placeholder="Enter Number"
+                />
+                {touched.num && errors.num && <div className="invalid-feedback">{errors.num}</div>}
+              </div>
 
-            {/* Email Field */}
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">Email</label>
-              <Field
-                type="email"
-                className={`form-control ${touched.email && errors.email ? "is-invalid" : ""}`}
-                id="email"
-                name="email"
-                placeholder="Enter Email"
-              />
-              {touched.email && errors.email && <div className="invalid-feedback">{errors.email}</div>}
-            </div>
+              <div className="mb-3">
+                <label htmlFor="email" className="form-label">Email</label>
+                <Field
+                  type="email"
+                  className={`form-control ${touched.email && errors.email ? "is-invalid" : ""}`}
+                  id="email"
+                  name="email"
+                  placeholder="Enter Email"
+                />
+                {touched.email && errors.email && <div className="invalid-feedback">{errors.email}</div>}
+              </div>
 
-            {/* Password Field */}
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">Password</label>
-              <Field
-                type="password"
-                className={`form-control ${touched.password && errors.password ? "is-invalid" : ""}`}
-                id="password"
-                name="password"
-                placeholder="Enter Password"
-              />
-              {touched.password && errors.password && <div className="invalid-feedback">{errors.password}</div>}
-            </div>
+              <div className="mb-3">
+                <label htmlFor="password" className="form-label">Password</label>
+                <Field
+                  type="password"
+                  className={`form-control ${touched.password && errors.password ? "is-invalid" : ""}`}
+                  id="password"
+                  name="password"
+                  placeholder="Enter Password"
+                />
+                {touched.password && errors.password && <div className="invalid-feedback">{errors.password}</div>}
+              </div>
 
-            {/* Confirm Password Field */}
-            <div className="mb-3">
-              <label htmlFor="repassword" className="form-label">Confirm Password</label>
-              <Field
-                type="password"
-                className={`form-control ${touched.repassword && errors.repassword ? "is-invalid" : ""}`}
-                id="repassword"
-                name="repassword"
-                placeholder="Confirm Password"
-              />
-              {touched.repassword && errors.repassword && <div className="invalid-feedback">{errors.repassword}</div>}
-            </div>
+              <div className="mb-3">
+                <label htmlFor="repassword" className="form-label">Confirm Password</label>
+                <Field
+                  type="password"
+                  className={`form-control ${touched.repassword && errors.repassword ? "is-invalid" : ""}`}
+                  id="repassword"
+                  name="repassword"
+                  placeholder="Confirm Password"
+                />
+                {touched.repassword && errors.repassword && <div className="invalid-feedback">{errors.repassword}</div>}
+              </div>
 
-            <div className="d-flex justify-content-center my-4">
-              <button type="submit" className="btn btn-primary fw-bold px-4">Sign Up</button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+              <div className="d-flex justify-content-center my-4">
+                <button type="submit" className="btn btn-primary fw-bold px-4">Sign Up</button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      </div>
 
       <ToastContainer
         position="top-right"
