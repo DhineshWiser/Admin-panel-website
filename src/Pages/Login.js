@@ -30,7 +30,6 @@ const Login = () => {
     password: Yup.string().required("Password is required"),
   });
 
-  // Handle form submission
   const handleSubmit = (values) => {
     const { email, password } = values;
 
@@ -43,7 +42,7 @@ const Login = () => {
         localStorage.setItem('email', email);
         localStorage.setItem('password', password);
         toast.success("Login successful!");
-        navigate("/Addproducts");
+        navigate("/products");
       } else {
         toast.error("Incorrect password. Please try again.");
       }
