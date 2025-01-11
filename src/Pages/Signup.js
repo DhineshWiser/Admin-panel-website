@@ -15,8 +15,11 @@ const Signup = () => {
 
   useEffect(() => {
     axios.get("https://670f45153e715186165720fb.mockapi.io/admin")
-      .then((response) => setApiData(response.data));
+      .then((response) => setApiData(response.data))
+      .catch((error) => console.error("Error fetching API data:", error));
   }, []);
+
+  
 
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
@@ -28,7 +31,7 @@ const Signup = () => {
       .required("Confirm password is required"),
   });
 
-  const handleSubmit = (values, { resetForm }) => {
+  const handleSubmit = async (values, { resetForm }) => {
     const { name, num, email, password } = values;
 
     const existingEmail = apiData.find(user => user.email === email);
@@ -36,23 +39,22 @@ const Signup = () => {
     if (existingEmail) {
       toast.error("This email is already registered.");
     } else {
-      axios.post("https://670f45153e715186165720fb.mockapi.io/admin", { name, num, email, password })
-        .then(() => {
-          toast.success("Signup successful!");
-          resetForm();
-          navigate("/login");
-        })
-        .catch((err) => {
-          console.error("Error: ", err);
-          toast.error("Error during signup. Please try again.");
-        });
+      try {
+        await axios.post("https://670f45153e715186165720fb.mockapi.io/admin", { name, num, email, password });
+        toast.success("Signup successful!");
+        resetForm();
+        navigate("/");  
+      } catch (err) {
+        console.error("Error during signup: ", err);
+        toast.error("Error during signup. Please try again.");
+      }
     }
   };
 
   return (
     <div className="d-flex flex-column justify-content-center align-items-center vh-100 bg-light">
       <div className="card shadow-lg p-4" style={{ width: "30rem", borderRadius: "10px" }}>
-        <h1 className="fs-2 fw-bold text-primary mb-4">Sign Up</h1>
+        <h1 className="fs-2 fw-bold text-primary mb-4 text-center">Sign Up</h1>
 
         <Formik
           initialValues={{
